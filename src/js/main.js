@@ -1,5 +1,6 @@
 'use strict';
-require(['./form', './game', './load', './reviews', './gallery'], function(form, Game, load, renderReviews, Gallery) {
+require(['./form', './game', './reviews', './gallery'], function(form, Game, renderReviews, Gallery) {
+  
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(Game.Verdict.INTRO);
@@ -10,15 +11,15 @@ require(['./form', './game', './load', './reviews', './gallery'], function(form,
     form.open(function() {
       game.setGameStatus(Game.Verdict.PAUSE);
       game.setDeactivated(true);
-    });
+  });
   };
   form.onClose = function() {
     game.setDeactivated(false);
   };
-  var url = 'http://localhost:1507/api/reviews';
-  load(url, renderReviews, 'JSONPCallback');
+
   // Экспортируйте из модуля функцию-конструктор галереи и подключите его как зависимость в блоке main.js.
   // В блоке main.js получите массив с адресами всех фотографий, лежащих в блоке photogallery.
+
   var pictureSection = document.querySelector('.photogallery');
   var links = pictureSection.querySelectorAll('a');
   var imgs = document.querySelector('.photogallery').querySelectorAll('a > img');
@@ -28,9 +29,11 @@ require(['./form', './game', './load', './reviews', './gallery'], function(form,
   }
   // Создайте переменную gallery запишите в нее объект, созданный функцией-конструктором Gallery, параметром конструктора передайте полученный
   // ранее массив фотографий.
+
   var gallery = new Gallery(sources);
   //Затем в модуле main.js добавьте ссылкам обработчики клика, которые вызывают
   // метод show с соответствующим параметром ранее созданному объекту gallery.
+
   Array.prototype.forEach.call(links, function(link, index) {
     link.onclick = function() {
       gallery.show(index);
