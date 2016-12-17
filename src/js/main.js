@@ -11,11 +11,12 @@ require(['./form', './game', './reviews', './gallery'], function(form, Game, ren
     form.open(function() {
       game.setGameStatus(Game.Verdict.PAUSE);
       game.setDeactivated(true);
-  });
+    });
   };
   form.onClose = function() {
     game.setDeactivated(false);
   };
+  window.addEventListener('scroll', game._hideDemo);
 
   // Экспортируйте из модуля функцию-конструктор галереи и подключите его как зависимость в блоке main.js.
   // В блоке main.js получите массив с адресами всех фотографий, лежащих в блоке photogallery.

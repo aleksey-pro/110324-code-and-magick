@@ -96,6 +96,9 @@ define(function() {
    * @param {Object} state
    * @param {number} timeframe
    */
+  /** Задержка при прокрутке*/
+  var THROTTLE_TIMEOUT = 150;
+  
   ObjectsBehaviour[ObjectType.ME] = function(object, state, timeframe) {
     // Пока зажата стрелка вверх, маг сначала поднимается, а потом левитирует
     // в воздухе на определенной высоте.
@@ -235,10 +238,12 @@ define(function() {
     this.canvas.height = container.clientHeight;
     this.container.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d');
+    this.demoBlock = document.querySelector('.demo');
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onKeyUp = this._onKeyUp.bind(this);
     this._pauseListener = this._pauseListener.bind(this);
     this.setDeactivated(false);
+    this._hideDemo = this._hideDemo.bind(this);
   };
   Game.prototype = {
     /**
@@ -481,7 +486,7 @@ define(function() {
            * @param {Object} state
            * @return {Verdict}
            */
-          function(state) {
+            function(state) {
             var me = state.objects.filter(function(object) {
               return object.type === ObjectType.ME;
             })[0];
@@ -494,7 +499,7 @@ define(function() {
            * @param {Object} state
            * @return {Verdict}
            */
-          function(state) {
+            function(state) {
             return state.keysPressed.ESC ? Verdict.PAUSE : Verdict.CONTINUE;
           },
           /**
@@ -502,10 +507,10 @@ define(function() {
            * @param {Object} state
            * @return {Verdict}
            */
-          function(state) {
+            function(state) {
             return Date.now() - state.startTime > 3 * 60 * 1000 ?
-            Verdict.FAIL :
-            Verdict.CONTINUE;
+              Verdict.FAIL :
+              Verdict.CONTINUE;
           }
         ];
       }
@@ -533,6 +538,12 @@ define(function() {
     setGameStatus: function(status) {
       if (this.state.currentStatus !== status) {
         this.state.currentStatus = status;
+      }
+    },
+    _hideDemo: function() {
+      if (this.demoBlock.getBoundingClientRect().bottom <= 0 ) {
+        console.log('no game');
+        this.setGameStatus(Game.Verdict.PAUSE);
       }
     },
     /**
@@ -638,5 +649,20 @@ define(function() {
     }
   };
   Game.Verdict = Verdict;
+  
+  var lastCall = Date.now();
+  var clouds = document.getElementsByClassName('header-clouds')[0];
+  window.addEventListener('scroll', parlx);
+  
+  function parlx() {
+    if (Date.now() - lastCall >= THROTTLE_TIMEOUT && clouds.getBoundingClientRect().bottom > 0) {
+      clouds.style.backgroundPositionX = parseInt(document.body.scrollTop * -0.5) + 'px';
+    }
+    lastCall = Date.now();
+  }
+  
   return Game;
+  
 });
+
+
