@@ -243,7 +243,7 @@ define(function() {
     this._onKeyUp = this._onKeyUp.bind(this);
     this._pauseListener = this._pauseListener.bind(this);
     this.setDeactivated(false);
-    this._hideDemo = this._hideDemo.bind(this);
+    this.optimizedScroll = this.optimizedScroll.bind(this);
   };
   Game.prototype = {
     /**
@@ -540,7 +540,7 @@ define(function() {
         this.state.currentStatus = status;
       }
     },
-    _hideDemo: function() {
+    optimizedScroll: function() {
       if (this.demoBlock.getBoundingClientRect().bottom <= 0 ) {
         console.log('no game');
         this.setGameStatus(Game.Verdict.PAUSE);
@@ -660,6 +660,37 @@ define(function() {
     }
     lastCall = Date.now();
   }
+
+
+    var throttle = function(type, name, obj) {
+      obj = obj || window;
+      var running = false;
+      var func = function() {
+        if (running) { return; }
+        running = true;
+        requestAnimationFrame(function() {
+          obj.dispatchEvent(new CustomEvent(name));
+          running = false;
+        });
+      };
+      obj.addEventListener(type, func);
+    };
+
+    throttle ("scroll", "optimizedScroll");
+
+
+  window.addEventListener("optimizedScroll", function() {
+    // Do your thing
+  });
+
+
+  // var optimizedScroll = throttle(function() {
+  //   if (!isVisible(document.querySelector('.game'))) {
+  //     window.game.setStatus(window.Game.Verdict.PAUSE);
+  //   }
+  // }, 100);
+  // window.addEventListener('scroll', optimizedScroll);
+
   
   return Game;
   
