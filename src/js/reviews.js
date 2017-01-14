@@ -2,14 +2,11 @@
 
 //отрисовка всего списка
 
-define(['./review'], function(Review) {
-  this.filters = document.querySelector('.reviews-filter');
-  this.filters.classList.add('invisible');
+define(['./review'], function(getReviewsElement) {
+  var container = document.querySelector('.reviews-list');
   var renderReviews = function(data) {
-    var container = document.querySelector('.reviews-list');
     data.forEach(function(review) {
-      var reviewEl = new Review(review);
-      container.appendChild(reviewEl.element);
+      container.appendChild(getReviewsElement(review));
     });
   };
   return renderReviews;
