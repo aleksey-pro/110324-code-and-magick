@@ -15,7 +15,8 @@ const webpackMiddlewareConfig = require('./middleware.config.js');
 const projectName = process.argv[2];
 
 
-const PORT = parseInt(process.argv[3], 10) || 1507;
+// const PORT = parseInt(process.argv[3], 10) || 1507;
+const PORT = process.env.PORT || 1507;
 
 
 const projectNameToAPIURL = new Map([
