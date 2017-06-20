@@ -16,7 +16,8 @@ require(['./form', './game', './reviews', './gallery'], function(form, Game, ren
   form.onClose = function() {
     game.setDeactivated(false);
   };
-  window.addEventListener('scroll', game._hideDemo);
+
+  window.addEventListener('scroll', game.optimizedScroll);
 
   // Экспортируйте из модуля функцию-конструктор галереи и подключите его как зависимость в блоке main.js.
   // В блоке main.js получите массив с адресами всех фотографий, лежащих в блоке photogallery.
