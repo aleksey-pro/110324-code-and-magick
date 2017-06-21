@@ -4,7 +4,7 @@
 
 define(['./review', './load'], function(Review, load) {
   // var REVIEWS_LOAD_URL = 'http://localhost:1507/api/reviews';
-  var REVIEWS_LOAD_URL = 'http://mighty-eyrie-43615.herokuapp.com/api/reviews';
+  var REVIEWS_LOAD_URL = 'https://mighty-eyrie-43615.herokuapp.com/api/reviews';
   var pagesPerBlock = 3;
   var pageNumber = 0;
 
