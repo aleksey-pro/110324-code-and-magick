@@ -1,11 +1,17 @@
 'use strict';
 require(['./form', './game', './reviews', './gallery'], function(form, Game, renderReviews, Gallery) {
-  
+
+  /**
+   * Инизиализируем новый объект игры
+   */
+
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(Game.Verdict.INTRO);
   var formOpenButton = document.querySelector('.reviews-controls-new');
+
   /** @param {MouseEvent} evt */
+
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     form.open(function() {
@@ -32,9 +38,15 @@ require(['./form', './game', './reviews', './gallery'], function(form, Game, ren
   // Создайте переменную gallery запишите в нее объект, созданный функцией-конструктором Gallery, параметром конструктора передайте полученный
   // ранее массив фотографий.
 
+  /**
+   * Инизиализируем новый объект галереи
+   *
+   * добавьте ссылкам обработчики клика, которые вызывают
+   * метод show с соответствующим параметром ранее созданному объекту gallery.
+   */
+
   var gallery = new Gallery(sources);
-  //Затем в модуле main.js добавьте ссылкам обработчики клика, которые вызывают
-  // метод show с соответствующим параметром ранее созданному объекту gallery.
+
 
   Array.prototype.forEach.call(links, function(link, index) {
     link.onclick = function() {

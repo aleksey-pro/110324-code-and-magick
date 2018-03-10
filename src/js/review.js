@@ -1,8 +1,18 @@
 'use strict';
 
-//отрисовка одного элемента списка
 
 define(function() {
+
+  /**
+   * Модуль отрисовки элемента списка отзыва
+   * @exports {Object} Review
+   */
+
+  /**
+   * Конструктор объекта отзыва Review
+   * @constructor
+   * @param {Object} data [данные отзывов с сервера]
+   */
 
   var Review = function(data) {
     this.data = data;
@@ -10,6 +20,13 @@ define(function() {
     var self = this;
     this.quizContainer = this.element.querySelector('.review-quiz');
     this.quizElems = this.element.querySelectorAll('.review-quiz-answer');
+
+    /**
+     * Показывает по клику на кнопку следующие отзывы
+     * @fires Review#onclick
+     * @param { MouseEvent } event
+     */
+
     this.quizContainer.onclick = function(event) {
       if (event.target.tagName !== 'SPAN') {
         return;
@@ -21,10 +38,23 @@ define(function() {
         event.target.classList.add('review-quiz-answer-active');
       }
     };
+
+    /**
+     * Удаляет отзыв
+     * @fires Review#remove
+     */
+
     this.remove = function() {
       this.quizContainer.onclick = null;
     };
   };
+
+  /**
+   * Создает элемент отзыва
+   * @fires Review#createReviewElement
+   * @param {Object} data [данные отзывов с сервера]
+   * @return {Element} [блок с отзывом]
+   */
 
   Review.prototype.createReviewElement = function(data) {
     var template = document.querySelector('#review-template');

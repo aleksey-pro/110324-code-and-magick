@@ -2,6 +2,13 @@
 
 window.getMessage = getMessage;
 
+/**
+ * Функция возвращет текст сообщений в зависимости от входящих данных, проверяя их тип.
+ * @param {boolean|numer|Array} a
+ * @param {boolean|numer|Array} b
+ * @returns {string} [сообщение]
+ */
+
 function getMessage(a, b) {
   if (typeof a === 'boolean') {
     if (a) {

@@ -1,6 +1,14 @@
 'use strict';
 
 define(function() {
+
+
+  /**
+   * Модуль, описывающий события формы
+   * @exports {Object} form
+   */
+
+
   var formContainer = document.querySelector('.overlay-container'), // див в котором форма
     formCloseButton = document.querySelector('.review-form-close'), // кнопка закрытия
     formRequired = document.querySelector('.review-form'), // форма
@@ -15,6 +23,11 @@ define(function() {
   var diff;
 
   submitButton.setAttribute('disabled', 'disabled'); // кнопка отключена
+
+  /**
+   * Функция проверки заполненности полей формы.
+   * Переключает соответсвующее состояние подсказок.
+   */
 
   function validate() {
     var isFeedbackRequired = Number(formRequired['review-mark'].value) < 3;
@@ -55,6 +68,13 @@ define(function() {
     setCookie();
   };
 
+  /**
+   * Передает в куки значения полей формы и уставливает срок их хранения.
+   * производится при заполнении полей.
+   * @property {string} cookieName
+   * @property {number} cookieStars
+   */
+
   function setCookie() {
     var cookieName = requiredName.value;
     var cookieStars = formRequired['review-mark'].value;
@@ -62,7 +82,11 @@ define(function() {
     Cookies.set('review-mark', cookieStars, {expires: getDateDiff()});
   }
 
-  //нахождение разности дней
+  /**
+   * Функция нахождения разности дней
+   * @return {number} число миллисекунд с момента рождения
+   */
+
   function getDateDiff() {
     if (diff) {
       return diff;
@@ -80,6 +104,13 @@ define(function() {
 
   document.addEventListener('DOMContentLoaded', insertCookies);
 
+  /**
+   * Функция извлекает из куки заполненные ранее имя и оценку
+   * если ранее оно было записано.
+   * Иcпользует библиотеку js-cookie
+   * @see ./lib/js.cookie.js
+   */
+
   function insertCookies() {
     var reviewerName = Cookies.get('review-name');
     if (typeof reviewerName === 'string') {
@@ -88,15 +119,32 @@ define(function() {
     formRequired['review-mark'].value = Cookies.get('review-mark');
   }
 
+  /**
+   * @namespace form
+   */
+
   var form = {
+
+    /**
+     * Удяляет текущий объект
+     * @memberof form
+     */
+
     onClose: null,
     /**
+     * Показывает форму
+     * @memberof form
      * @param {Function} cb
      */
     open: function(cb) {
       formContainer.classList.remove('invisible');
       cb();
     },
+
+    /**
+     * Скрывает форму
+     * @memberof form
+     */
 
     close: function() {
       formContainer.classList.add('invisible');
@@ -106,9 +154,17 @@ define(function() {
       }
     }
   };
+
+  /**
+   * Закрывает форму при клике на кнопку
+   * @param {MouseEvent} evt
+   */
+
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
     form.close();
   };
+
+
   return form;
 });
